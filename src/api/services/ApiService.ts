@@ -61,39 +61,30 @@ export class ApiService {
     );
   }
 
-  // The 'error' parameter is correctly typed as 'unknown'
   private responseErrorInterceptor(error: unknown) {
-    // We use the type guard 'axios.isAxiosError' to check the error type
     if (axios.isAxiosError(error)) {
-      // Now, inside this block, TypeScript knows 'error' is an AxiosError
       const axiosError = error as AxiosError<ApiResponse<unknown>>;
       this.logger.error('Axios error occurred', {
         message: axiosError.message,
         url: axiosError.config?.url,
         code: axiosError.code,
-        // Log the custom error message from our backend if it exists
         response: axiosError.response?.data?.message || axiosError.response?.data,
       });
     } else if (error instanceof Error) {
-      // Handle standard JavaScript errors
       this.logger.error('A standard error occurred in API call', error);
     } else {
-      // Handle other, truly unknown errors
       this.logger.error('An unexpected non-error was thrown in API call', {
         error,
       });
     }
-    // It's crucial to re-throw the error to reject the promise
     return Promise.reject(error);
   }
 
   public get<T>(url: string): Promise<T> {
-    // This type assertion is correct because our interceptor unwraps the response
     return this.client.get<ApiResponse<T>>(url) as unknown as Promise<T>;
   }
 
   public post<T>(url: string, data: unknown): Promise<T> {
-    // This type assertion is correct because our interceptor unwraps the response
     return this.client.post<ApiResponse<T>>(
       url,
       data,

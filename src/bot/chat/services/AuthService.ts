@@ -37,7 +37,7 @@ export class AuthService implements IAuthService {
       this.accessToken = response.access_token;
       this.logger.info('Successfully logged in to the AI API.');
     } catch (error) {
-      this.logger.error('Failed to log in to the AI API.', error);
+      this.logger.error('Failed to log in to the AI API.');
       throw new Error('Could not authenticate with the backend service.');
     }
   }
