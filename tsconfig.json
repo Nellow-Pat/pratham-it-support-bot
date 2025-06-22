@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "ES2022",
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    "isolatedModules": true,
+
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitAny": true,
+
+    "module": "CommonJS",
+    "outDir": "dist",
+    "sourceMap": true,
+
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}
