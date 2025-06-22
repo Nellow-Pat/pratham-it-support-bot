@@ -2,10 +2,15 @@ import 'reflect-metadata';
 import { container } from '@/container';
 import { LoggerService } from '@/utils/logger';
 import { IBotService } from '@/bot/base/interfaces/IBotService';
+import { HandlerRegistry } from '@/bot/chat/services/HandlerRegistry';
+
 
 async function bootstrap() {
   const logger = container.resolve(LoggerService);
   logger.info('Pratham IT support bot is starting...');
+
+  const handlerRegistry = container.resolve(HandlerRegistry);
+  handlerRegistry.initializeHandlers();
 
   const botService = container.resolve<IBotService>(IBotService);
   await botService.start();
