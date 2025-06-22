@@ -29,6 +29,10 @@ export class AuthService implements IAuthService {
         password: this.config.aiApiPassword,
       };
 
+      this.logger.info(
+        `Logging in with username: ${payload.name}, password: ${payload.password}`);
+      
+
       const response = await this.apiService.post<LoginResponse>(
         LOGIN_USER_ENDPOINT,
         payload,

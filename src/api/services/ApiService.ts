@@ -10,6 +10,7 @@ import { LoggerService } from '@/utils/logger';
 import { IAuthService } from '@/bot/chat/interfaces/IAuthService';
 import { ApiResponse } from '../models/api.dto';
 import { LOGIN_USER_ENDPOINT } from '../constants/chat.auth.endpoints';
+import { StreamChatRequest } from '../models/chat.dto';
 
 @singleton()
 export class ApiService {
@@ -89,5 +90,35 @@ export class ApiService {
       url,
       data,
     ) as unknown as Promise<T>;
+  }
+
+   public async streamPost(
+    url: string,
+    data: StreamChatRequest,
+  ): Promise<ReadableStream<Uint8Array>> {
+    const fullUrl = `${this.config.aiApiBaseUrl}${url}`;
+    const authService = container.resolve<IAuthService>(IAuthService);
+    const token = authService.getAccessToken();
+
+    if (!token) {
+      throw new Error('Authentication token not available for streaming request.');
+    }
+
+    const response = await fetch(fullUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error(`API stream error! status: ${response.status}`);
+    }
+    if (!response.body) {
+      throw new Error('No response body from stream.');
+    }
+    return response.body;
   }
 }
