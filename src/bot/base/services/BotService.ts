@@ -1,11 +1,10 @@
 import { Bot } from 'grammy';
-import { injectable, inject, singleton } from 'tsyringe';
+import { injectable, inject } from 'tsyringe';
 import { BotFactory } from '../factories/BotFactory';
 import { IBotService } from '../interfaces/IBotService';
 import { LoggerService } from '@/utils/logger';
 import { BotContext } from '@/bot/models/context.model';
 
-@singleton()
 @injectable()
 export class BotService implements IBotService {
   private readonly bot: Bot<BotContext>;
