@@ -8,9 +8,7 @@ export function registerBaseBotServices(container: DependencyContainer): void {
   container.register<BotFactory>(BotFactory, {
     useClass: BotFactory,
   });
+  container.registerSingleton<IBotService>(IBotService, BotService);
 
-  container.register(IBotService, {
-    useClass: BotService,
-  });
   container.registerSingleton(HandlerRegistry);
 }
