@@ -1,7 +1,7 @@
 import { injectable, inject, injectAll } from 'tsyringe';
-import { ICommand } from '@/bot/chat/interfaces/ICommand';
 import { LoggerService } from '@/utils/logger';
 import { IBotService } from '@/bot/base/interfaces/IBotService';
+import { ICommand } from '@/bot/base/interfaces/IHandler';
 
 @injectable()
 export class HandlerRegistry {
@@ -22,6 +22,7 @@ export class HandlerRegistry {
       bot.command(command.command, (ctx) => command.handle(ctx));
     }
 
+    
     // callback queries, message listeners should be registered here.
   }
 }
