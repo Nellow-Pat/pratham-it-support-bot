@@ -6,6 +6,7 @@ import { registerApiServices } from '@/api/container';
 import { registerBaseBotServices } from '@/bot/base/container';
 import { registerChatServices } from '@/bot/chat/container';
 import { Application } from '@/Application';
+import { registerWebAppServices } from '@/bot/web-app/container';
 
 container.register(Application, { useClass: Application });
 
@@ -15,5 +16,6 @@ container.registerSingleton(LoggerService);
 registerApiServices(container);
 registerBaseBotServices(container);
 registerChatServices(container);
+registerWebAppServices(container);
 
 export { container };

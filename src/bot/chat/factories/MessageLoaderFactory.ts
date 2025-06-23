@@ -3,13 +3,33 @@ import path from 'path';
 import { injectable } from 'tsyringe';
 import { z } from 'zod';
 
+const callbackButtonSchema = z.object({
+  text: z.string(),
+  type: z.literal('callback'),
+  value: z.string(),
+});
+
+const webappButtonSchema = z.object({
+  text: z.string(),
+  type: z.literal('webapp'),
+  value: z.string(),
+  path: z.string().startsWith('/', 'Path must start with a "/"'),
+});
+
+const buttonSchema = z.discriminatedUnion('type', [
+  callbackButtonSchema,
+  webappButtonSchema,
+]);
+
 const greetingSchema = z.object({
   title: z.string(),
-  body: z.string(),
-  button_text: z.string(),
+  image_url: z.string().url().optional(),
+  body: z.array(z.string()),
+  buttons: z.array(buttonSchema),
 });
 
 export type InitialGreetingMessage = z.infer<typeof greetingSchema>;
+export type GreetingButton = z.infer<typeof buttonSchema>;
 
 @injectable()
 export class MessageLoaderFactory {

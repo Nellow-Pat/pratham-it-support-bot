@@ -11,6 +11,7 @@ const configSchema = z.object({
   AI_API_BASE_URL: z.string().url("AI_API_BASE_URL must be a valid URL."),
   AI_API_USERNAME: z.string().min(1, "AI_API_USERNAME is required."),
   AI_API_PASSWORD: z.string().min(1, "AI_API_PASSWORD is required."),
+  WEB_APP_URL: z.string().url("WEB_APP_URL must be a valid URL."),
 });
 
 const parsedEnv = configSchema.safeParse(process.env);
@@ -31,4 +32,5 @@ export const config = new Config(
   env.AI_API_BASE_URL,
   env.AI_API_USERNAME,
   env.AI_API_PASSWORD,
+  env.WEB_APP_URL
 );
