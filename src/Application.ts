@@ -21,8 +21,8 @@ export class Application {
     try {
       await this.authService.login();
     } catch (error) {
-      this.logger.error('Fatal: API authentication failed. Shutting down.');
-      process.exit(1);
+      this.logger.error('Fatal: API authentication failed.');
+      //process.exit(1);
     }
 
     this.handlerRegistry.initializeHandlers();
