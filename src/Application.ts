@@ -1,8 +1,9 @@
 import { injectable, inject } from 'tsyringe';
-import { IAuthService } from './bot/chat/interfaces/IAuthService';
-import { HandlerRegistry } from './bot/base/services/HandlerRegistry';
-import { IBotService } from './bot/base/interfaces/IBotService';
-import { LoggerService } from './utils/logger';
+import { IAuthService } from '@/bot/chat/interfaces/IAuthService';
+import { HandlerRegistry } from '@/bot/base/services/HandlerRegistry';
+import { IBotService } from '@/bot/base/interfaces/IBotService';
+import { LoggerService } from '@/utils/logger';
+import { WebAppParserRegistry } from '@/bot/web-app/services/WebAppParserRegistry';
 
 @injectable()
 export class Application {
@@ -11,6 +12,7 @@ export class Application {
     @inject(IAuthService) private readonly authService: IAuthService,
     @inject(HandlerRegistry) private readonly handlerRegistry: HandlerRegistry,
     @inject(IBotService) private readonly botService: IBotService,
+    @inject(WebAppParserRegistry) private readonly webAppRegistry: WebAppParserRegistry,
   ) {}
 
   public async run(): Promise<void> {
@@ -24,6 +26,7 @@ export class Application {
     }
 
     this.handlerRegistry.initializeHandlers();
+    this.webAppRegistry.initializeListener();
 
     await this.botService.start();
 
