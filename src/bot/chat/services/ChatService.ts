@@ -30,30 +30,24 @@ export class ChatService implements IChatService {
     @inject(ApiService) private readonly apiService: ApiService,
   ) {}
 
-  public async sendWelcomeMessage(ctx: BotContext): Promise<void> {
+   public async sendWelcomeMessage(ctx: BotContext): Promise<void> {
     try {
       const greeting = await this.messageLoader.loadInitialGreeting();
       const keyboard = this.welcomeView.build({
-        buttonText: greeting.button_text,
+        buttons: greeting.buttons,
       });
 
       const message = `*${greeting.title}*\n\n${greeting.body}`;
 
       await ctx.reply(message, {
-        parse_mode: "Markdown",
+        parse_mode: 'Markdown',
         reply_markup: keyboard,
       });
 
       this.logger.info(`Sent welcome message to user ${ctx.from?.id}`);
     } catch (error) {
-      this.logger.error(
-        "Failed to send welcome message",
-        error instanceof Error
-          ? { message: error.message, stack: error.stack }
-          : { error: String(error) }
-      );
-
-      await ctx.reply("Sorry, something went wrong. Please try again later.");
+      this.logger.error('Failed to send welcome message');
+      await ctx.reply('Sorry, something went wrong. Please try again later.');
     }
   }
    public async initiateChat(ctx: CallbackQueryContext<BotContext>): Promise<void> {

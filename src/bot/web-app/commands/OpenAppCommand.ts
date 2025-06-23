@@ -16,7 +16,7 @@ export class OpenAppCommand implements ICommand {
 
   public async handle(ctx: CommandContext<BotContext>): Promise<void> {
     const keyboard = this.view.build({
-      text: '🚀 Open Custom UI',
+      text: 'Open CRM',
       url: this.config.webAppUrl,
     });
 

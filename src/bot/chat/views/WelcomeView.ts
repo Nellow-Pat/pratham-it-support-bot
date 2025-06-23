@@ -1,15 +1,34 @@
 import { InlineKeyboard } from 'grammy';
-import { injectable } from 'tsyringe';
+import { injectable, inject } from 'tsyringe';
+import { Config } from '@/models/config.model';
+import { GreetingButton } from '../factories/MessageLoaderFactory';
 
 export interface WelcomeViewProps {
-  buttonText: string;
+  buttons: GreetingButton[];
 }
 
 @injectable()
 export class WelcomeView {
+  constructor(@inject(Config) private readonly config: Config) {}
+
   public build(props: WelcomeViewProps): InlineKeyboard {
     const keyboard = new InlineKeyboard();
-    keyboard.text(props.buttonText, 'start_ai_chat');
+
+    props.buttons.forEach((button, index) => {
+      switch (button.type) {
+        case 'callback':
+          keyboard.text(button.text, button.value);
+          break;
+        case 'webapp':
+          const fullUrl = new URL(button.path, this.config.webAppUrl).toString();
+          keyboard.webApp(button.text, fullUrl);
+          break;
+      }
+      if (index < props.buttons.length - 1) {
+        keyboard.row();
+      }
+    });
+
     return keyboard;
   }
 }
