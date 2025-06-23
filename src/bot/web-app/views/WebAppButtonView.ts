@@ -1,4 +1,4 @@
-import { Keyboard } from 'grammy';
+import { InlineKeyboard  } from 'grammy';
 import { injectable } from 'tsyringe';
 
 export interface WebAppButtonProps {
@@ -8,8 +8,8 @@ export interface WebAppButtonProps {
 
 @injectable()
 export class WebAppButtonView {
-  public build(props: WebAppButtonProps): Keyboard {
-    const keyboard = new Keyboard().webApp(props.text, props.url);
+  public build(props: WebAppButtonProps): InlineKeyboard {
+    const keyboard = new InlineKeyboard().webApp(props.text, props.url);
     return keyboard;
   }
 }

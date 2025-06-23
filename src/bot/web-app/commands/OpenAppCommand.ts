@@ -21,7 +21,7 @@ export class OpenAppCommand implements ICommand {
     });
 
     await ctx.reply('Click the button below to open our custom interface!', {
-      reply_markup: keyboard.resized(),
+      reply_markup: keyboard,
     });
   }
 }

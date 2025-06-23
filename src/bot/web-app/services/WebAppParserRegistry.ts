@@ -22,17 +22,26 @@ export class WebAppParserRegistry {
     this.logger.info(
       `Initializing Web App data listener. Found ${this.parsers.size} parsers.`,
     );
-    this.botService
+    try {
+      this.botService
       .getBotInstance()
       .on('message:web_app_data', (ctx) => this.route(ctx));
+      this.logger.info('Web App data listener initialized successfully.');
+    } catch (error) {
+      this.logger.error('Failed to initialize Web App data listener', { error });
+    }
   }
 
   private async route(ctx: WebAppDataContext): Promise<void> {
     try {
       const rawData = ctx.message.web_app_data.data;
       const response = JSON.parse(rawData) as WebAppResponse<unknown>;
+      this.logger.info('Received raw Web App data string:', { rawData });
+      
+      this.logger.info('Parsed Web App response object:', { response });
 
       const parser = this.parsers.get(response.type);
+      
 
       if (!parser) {
         this.logger.warn(`No parser found for Web App data type: "${response.type}"`);
