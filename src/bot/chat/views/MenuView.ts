@@ -1,17 +1,17 @@
 import { InlineKeyboard } from 'grammy';
 import { injectable, inject } from 'tsyringe';
 import { Config } from '@/models/config.model';
-import { GreetingButton } from '../factories/MessageLoaderFactory';
+import { ViewButton } from '../factories/NavigationalViewFactory';
 
-export interface WelcomeViewProps {
-  buttons: GreetingButton[];
+export interface MenuViewProps {
+  buttons: ViewButton[]; 
 }
 
 @injectable()
-export class WelcomeView {
+export class MenuView {
   constructor(@inject(Config) private readonly config: Config) {}
 
-  public build(props: WelcomeViewProps): InlineKeyboard {
+  public build(props: MenuViewProps): InlineKeyboard {
     const keyboard = new InlineKeyboard();
 
     props.buttons.forEach((button, index) => {
@@ -24,6 +24,7 @@ export class WelcomeView {
           keyboard.webApp(button.text, fullUrl);
           break;
       }
+
       if (index % 2 === 1 && index < props.buttons.length - 1) {
         keyboard.row();
       }

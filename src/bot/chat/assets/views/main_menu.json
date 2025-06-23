@@ -1,0 +1,16 @@
+{
+  "title": "Welcome to Pratham IT Support! 🚀",
+  "image_url": "https://i.imgur.com/G4V2k4z.gif",
+  "body": [
+    "Hello, I'm Pratham, your IT support assistant.",
+    "You can chat with our AI for immediate help, update your profile, or manage your support tickets directly from our custom interface below.",
+    "",
+    "Just choose an option to get started!"
+  ],
+  "buttons": [
+    { "text": "Chat with AI", "type": "callback", "value": "start_ai_chat" },
+    { "text": "Update Profile", "type": "webapp", "value": "profile_view", "path": "/profile" },
+    { "text": "View Tickets", "type": "webapp", "value": "tickets_view", "path": "/tickets" },
+    { "text": "View FAQs", "type": "callback", "value": "view:faq_menu" }
+  ]
+}

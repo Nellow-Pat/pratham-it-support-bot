@@ -1,0 +1,13 @@
+{
+    "title": "LekhAstra FAQs",
+    "body": [
+        "*Q: How do I reset my LekhAstra password?*",
+        "A: You can reset it via the self-service portal at [portal link].",
+        "",
+        "*Q: Where can I find the training documents?*",
+        "A: All documents are available on the company SharePoint."
+    ],
+    "buttons": [
+        { "text": "⬅️ Back to FAQ Menu", "type": "callback", "value": "view:faq_menu" }
+    ]
+}

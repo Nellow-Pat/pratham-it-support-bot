@@ -5,8 +5,6 @@ import { IChatService } from '../interfaces/IChatService';
 import { IChatSessionService } from '../interfaces/IChatSessionService';
 import { ChatSessionService } from '../services/ChatSessionService';
 
-import { MessageLoaderFactory } from '../factories/MessageLoaderFactory';
-import { WelcomeView } from '../views/WelcomeView';
 import {
   ICommand,
   ICallbackQueryHandler,
@@ -18,6 +16,12 @@ import { StartAiChatCallbackHandler } from '../handlers/StartAiChatCallbackHandl
 import { ConversationMessageHandler } from '../handlers/ConversationMessageHandler';
 import { IAuthService } from '../interfaces/IAuthService';
 import { AuthService } from '../services/AuthService';
+import { IMenuViewService } from '../interfaces/IMenuViewService';
+import { MenuViewService } from '../services/MenuViewService';
+import { NavigationViewCallbackHandler } from '../handlers/NavigationViewCallbackHandler';
+import { NavigationalViewFactory } from '../factories/NavigationalViewFactory';
+import { MenuView } from '../views/MenuView';
+
 
 export function registerChatServices(container: DependencyContainer): void {
 
@@ -25,8 +29,10 @@ export function registerChatServices(container: DependencyContainer): void {
   container.registerSingleton(IChatService, ChatService);
   container.registerSingleton(IChatSessionService, ChatSessionService);
 
-  container.register(MessageLoaderFactory, { useClass: MessageLoaderFactory });
-  container.register(WelcomeView, { useClass: WelcomeView });
+  
+  container.registerSingleton(IMenuViewService, MenuViewService);
+  container.register(NavigationalViewFactory, { useClass: NavigationalViewFactory });
+  container.register(MenuView, { useClass: MenuView });
 
 
   container.register(ICommand, { useClass: StartCommand });
@@ -35,6 +41,7 @@ export function registerChatServices(container: DependencyContainer): void {
   container.register(ICallbackQueryHandler, { 
     useClass: StartAiChatCallbackHandler,
   });
+  container.register(ICallbackQueryHandler, { useClass: NavigationViewCallbackHandler });
 
   container.register(IMessageHandler, { 
     useClass: ConversationMessageHandler,

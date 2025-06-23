@@ -2,8 +2,6 @@ import { injectable, inject, singleton } from "tsyringe";
 import { BotContext } from "@/bot/models/context.model";
 import { LoggerService } from "@/utils/logger";
 import { IChatService } from "../interfaces/IChatService";
-import { MessageLoaderFactory } from "../factories/MessageLoaderFactory";
-import { WelcomeView } from "../views/WelcomeView";
 import { IChatSessionService } from '../interfaces/IChatSessionService';
 import { ApiService } from '@/api/services/ApiService';
 import {
@@ -15,55 +13,19 @@ import {
   CREATE_CHAT_ENDPOINT,
   STREAM_CHAT_ENDPOINT,
 } from '@/api/constants/chat.auth.endpoints';
-import { CallbackQueryContext } from "grammy";
+import { CallbackQueryContext, Filter } from "grammy";
 
 @singleton()
 @injectable()
 export class ChatService implements IChatService {
   constructor(
     @inject(LoggerService) private readonly logger: LoggerService,
-    @inject(MessageLoaderFactory)
-    private readonly messageLoader: MessageLoaderFactory,
-    @inject(WelcomeView) private readonly welcomeView: WelcomeView,
-    @inject(IChatSessionService)
-    private readonly sessionService: IChatSessionService,
+    @inject(IChatSessionService) private readonly sessionService: IChatSessionService,
     @inject(ApiService) private readonly apiService: ApiService,
   ) {}
 
-   public async sendWelcomeMessage(ctx: BotContext): Promise<void> {
-    try {
-      const greeting = await this.messageLoader.loadInitialGreeting();
-      const keyboard = this.welcomeView.build({
-        buttons: greeting.buttons,
-      });
 
-      const caption = [
-        `*${greeting.title}*`,
-        '', 
-        ...greeting.body, 
-      ].join('\n'); 
-
-      if (greeting.image_url) {
-        await ctx.replyWithPhoto(greeting.image_url, {
-          caption: caption,
-          parse_mode: 'Markdown',
-          reply_markup: keyboard,
-        });
-      } else {
-        await ctx.reply(caption, {
-          parse_mode: 'Markdown',
-          reply_markup: keyboard,
-        });
-      }
-
-      this.logger.info(`Sent welcome message to user ${ctx.from?.id}`);
-    } catch (error) {
-      this.logger.error('Failed to send welcome message');
-      await ctx.reply('Sorry, something went wrong. Please try again later.');
-    }
-  }
-
-   public async initiateChat(ctx: CallbackQueryContext<BotContext>): Promise<void> {
+  public async initiateChat(ctx: CallbackQueryContext<BotContext>): Promise<void> {
     if (!ctx.from) return;
     await ctx.answerCallbackQuery();
 
@@ -79,6 +41,7 @@ export class ChatService implements IChatService {
 
       this.sessionService.createSession(ctx.from.id, session.id);
       this.logger.info(`Started new chat session ${session.id} for user ${ctx.from.id}`);
+      
       await ctx.reply("Hello! What can I help you with? You can end our chat at any time by sending /end.");
 
     } catch (error) {
@@ -87,7 +50,7 @@ export class ChatService implements IChatService {
     }
   }
 
-  public async handleConversation(ctx: BotContext): Promise<void> {
+  public async handleConversation(ctx: Filter<BotContext, 'message:text'>): Promise<void> {
     if (!ctx.from || !ctx.message?.text) return;
     const userId = ctx.from.id;
     const chatId = this.sessionService.getSessionId(userId);
