@@ -1,0 +1,11 @@
+{
+  "title": "Frequently Asked Questions ❓",
+  "body": [
+    "Please select a category to see the relevant FAQs."
+  ],
+  "buttons": [
+    { "text": "Finastra FAQs", "type": "callback", "value": "view:finastra_faq" },
+    { "text": "LekhAstra FAQs", "type": "callback", "value": "view:lekhastra_faq" },
+    { "text": "⬅️ Back to Main Menu", "type": "callback", "value": "view:main_menu" }
+  ]
+}
