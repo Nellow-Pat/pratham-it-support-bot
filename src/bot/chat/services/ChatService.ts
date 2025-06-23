@@ -37,12 +37,24 @@ export class ChatService implements IChatService {
         buttons: greeting.buttons,
       });
 
-      const message = `*${greeting.title}*\n\n${greeting.body}`;
+      const caption = [
+        `*${greeting.title}*`,
+        '', 
+        ...greeting.body, 
+      ].join('\n'); 
 
-      await ctx.reply(message, {
-        parse_mode: 'Markdown',
-        reply_markup: keyboard,
-      });
+      if (greeting.image_url) {
+        await ctx.replyWithPhoto(greeting.image_url, {
+          caption: caption,
+          parse_mode: 'Markdown',
+          reply_markup: keyboard,
+        });
+      } else {
+        await ctx.reply(caption, {
+          parse_mode: 'Markdown',
+          reply_markup: keyboard,
+        });
+      }
 
       this.logger.info(`Sent welcome message to user ${ctx.from?.id}`);
     } catch (error) {
@@ -50,6 +62,7 @@ export class ChatService implements IChatService {
       await ctx.reply('Sorry, something went wrong. Please try again later.');
     }
   }
+
    public async initiateChat(ctx: CallbackQueryContext<BotContext>): Promise<void> {
     if (!ctx.from) return;
     await ctx.answerCallbackQuery();

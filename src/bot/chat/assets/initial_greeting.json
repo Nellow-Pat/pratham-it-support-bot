@@ -1,6 +1,12 @@
 {
-  "title": "Welcome to Pratham IT Support Bot!",
-  "body": "Please select an option below to get started.",
+  "title": "Welcome to Pratham IT Support!",
+  "image_url": "https://prathamit.com/wp-content/uploads/2023/08/PITS-LOGO-01-3.png",
+  "body": [
+    "Hello, I'm Pratham, your IT support assistant.",
+    "You can chat with our AI for immediate help, update your profile, or manage your support tickets directly from our custom interface below.",
+    "",
+    "Just choose an option to get started!"
+  ],
   "buttons": [
     {
       "text": "Chat with AI",
@@ -8,16 +14,21 @@
       "value": "start_ai_chat"
     },
     {
-      "text": "Update My Profile",
+      "text": "Update Profile",
       "type": "webapp",
       "value": "profile_view",
       "path": "/profile"
     },
     {
-      "text": "View My Tickets",
+      "text": "View Tickets",
       "type": "webapp",
       "value": "tickets_view",
       "path": "/tickets"
+    },
+    {
+      "text": "Read FAQs",
+      "type": "callback",
+      "value": "show_faq"
     }
   ]
 }

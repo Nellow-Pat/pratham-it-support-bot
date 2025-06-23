@@ -23,7 +23,8 @@ const buttonSchema = z.discriminatedUnion('type', [
 
 const greetingSchema = z.object({
   title: z.string(),
-  body: z.string(),
+  image_url: z.string().url().optional(),
+  body: z.array(z.string()),
   buttons: z.array(buttonSchema),
 });
 

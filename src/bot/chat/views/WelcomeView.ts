@@ -24,7 +24,7 @@ export class WelcomeView {
           keyboard.webApp(button.text, fullUrl);
           break;
       }
-      if (index < props.buttons.length - 1) {
+      if (index % 2 === 1 && index < props.buttons.length - 1) {
         keyboard.row();
       }
     });
