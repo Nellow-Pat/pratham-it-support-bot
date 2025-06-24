@@ -1,7 +1,7 @@
 import { injectable } from 'tsyringe';
 import { z } from 'zod';
 import { IWebAppParser } from '../interfaces/IWebAppParser';
-import { WebAppDataContext } from '../models/context.model';
+import { ParserContext } from '../models/parser-context.model';
 
 const IssueReportSchema = z.object({
   title: z.string().min(1, 'Title cannot be empty.'),
@@ -17,10 +17,8 @@ type IssueReportData = z.infer<typeof IssueReportSchema>;
 export class IssueReportParser implements IWebAppParser<IssueReportData> {
   public readonly dataType = 'add_issue';
 
-  public async parseAndHandle(ctx: WebAppDataContext, data: IssueReportData): Promise<void> {
+  public async parseAndHandle(ctx: ParserContext, data: IssueReportData): Promise<void> {
     const validation = IssueReportSchema.safeParse(data);
-    console.log('IssueReportParser data:', data);
-
     if (!validation.success) {
       await ctx.reply('The issue report data was invalid. Please try again.');
       console.error(validation.error.flatten().fieldErrors);

@@ -30,8 +30,6 @@ export class Application {
     this.server.start();
 
     this.handlerRegistry.initializeHandlers();
-    this.webAppRegistry.initializeListener();
-
     await this.botService.start();
 
     this.logger.info('Bot is now running and polling for updates.');

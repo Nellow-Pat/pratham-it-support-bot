@@ -3,6 +3,7 @@ import { injectable, inject, singleton } from 'tsyringe';
 import { Config } from '@/models/config.model';
 import { LoggerService } from '@/utils/logger';
 import { webhookRouter } from './routes/webhook.route';
+import cors from 'cors';
 
 
 @singleton()
@@ -15,6 +16,8 @@ export class Server {
     @inject(LoggerService) private readonly logger: LoggerService,
   ) {
     this.app = express();
+
+    this.app.use(cors()); 
     this.app.use(express.json());
     this.registerRoutes();
   }
