@@ -10,7 +10,7 @@
   "buttons": [
     { "text": "Chat with AI", "type": "callback", "value": "start_ai_chat" },
     { "text": "Update Profile", "type": "webapp", "value": "profile_view", "path": "/profile" },
-    { "text": "View Tickets", "type": "webapp", "value": "tickets_view", "path": "/tickets" },
+    { "text": "Raise an issue", "type": "webapp", "value": "add_issue", "path": "/add-issue" },
     { "text": "View FAQs", "type": "callback", "value": "view:faq_menu" }
   ]
 }

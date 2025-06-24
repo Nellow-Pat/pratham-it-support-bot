@@ -6,6 +6,7 @@ export class Config {
   public readonly aiApiUsername: string;
   public readonly aiApiPassword: string;
   public readonly webAppUrl : string;
+  public readonly webServerPort : string;
 
   constructor(
     token: string,
@@ -14,7 +15,8 @@ export class Config {
     aiApiBaseUrl: string,
     aiApiUsername: string,
     aiApiPassword: string,
-    webAppUrl: string
+    webAppUrl: string,
+    webServerPort: string
   ) {
     this.telegramBotToken = token;
     this.logLevel = logLevel;
@@ -23,5 +25,6 @@ export class Config {
     this.aiApiUsername = aiApiUsername;
     this.aiApiPassword = aiApiPassword;
     this.webAppUrl = webAppUrl;
+    this.webServerPort = webServerPort;
   }
 }

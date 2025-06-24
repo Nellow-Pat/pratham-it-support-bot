@@ -4,6 +4,7 @@ import { HandlerRegistry } from '@/bot/base/services/HandlerRegistry';
 import { IBotService } from '@/bot/base/interfaces/IBotService';
 import { LoggerService } from '@/utils/logger';
 import { WebAppParserRegistry } from '@/bot/web-app/services/WebAppParserRegistry';
+import { Server } from './server/Server';
 
 @injectable()
 export class Application {
@@ -13,6 +14,7 @@ export class Application {
     @inject(HandlerRegistry) private readonly handlerRegistry: HandlerRegistry,
     @inject(IBotService) private readonly botService: IBotService,
     @inject(WebAppParserRegistry) private readonly webAppRegistry: WebAppParserRegistry,
+    @inject(Server) private readonly server: Server,
   ) {}
 
   public async run(): Promise<void> {
@@ -21,13 +23,13 @@ export class Application {
     try {
       await this.authService.login();
     } catch (error) {
-      this.logger.error('Fatal: API authentication failed. Shutting down.');
-      process.exit(1);
+      this.logger.error('Fatal: API authentication failed.');
+      //process.exit(1);
     }
 
-    this.handlerRegistry.initializeHandlers();
-    this.webAppRegistry.initializeListener();
+    this.server.start();
 
+    this.handlerRegistry.initializeHandlers();
     await this.botService.start();
 
     this.logger.info('Bot is now running and polling for updates.');
