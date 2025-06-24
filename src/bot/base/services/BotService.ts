@@ -44,6 +44,7 @@ export class BotService implements IBotService {
         `Error while handling update ${ctx.update.update_id}:`,
         errorObj,
       );
+      ctx.reply("I couldn't process your request. Please try again later.");
     });
   }
 
