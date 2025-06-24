@@ -17,7 +17,9 @@ export class Server {
   ) {
     this.app = express();
 
-    this.app.use(cors()); 
+    this.app.use(cors({
+      origin: this.config.webAppUrl,
+    }));
     this.app.use(express.json());
     this.registerRoutes();
   }
