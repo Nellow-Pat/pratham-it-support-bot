@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon",
     "build": "rimraf dist && tsc && cpx \"src/**/*.json\" dist && cpx \"config/bots.config.json\" dist/config",
-    "prod": "cross-env NODE_ENV=production node -r ./register-paths.js dist/main.js",
+    "prod": "node -r ./register-paths.js dist/main.js",
     "start": "npm run build && npm run prod",
     "lint": "eslint \"src/**/*.ts\"",
     "lint:fix": "eslint \"src/**/*.ts\" --fix"
@@ -28,7 +28,8 @@
     "grammy": "^1.24.0",
     "reflect-metadata": "^0.2.2",
     "tsyringe": "^4.8.0",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "tsconfig-paths": "^4.2.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
@@ -45,7 +46,6 @@
     "prettier": "^3.2.5",
     "rimraf": "^5.0.7",
     "ts-node": "^10.9.2",
-    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.4.5"
   }
 }
