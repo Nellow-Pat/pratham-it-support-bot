@@ -1,0 +1,29 @@
+//http://localhost:8080/api/v1/notify/notifyBotId
+
+Chat id is required and at least body or title in the view is required.
+
+{
+  "chatId": "",
+  "view": {
+    "title": "System Alert: Maintenance Scheduled",
+    "image_url": "https://www.freeiconspng.com/thumbs/alert-icon/alert-icon-red-11.png",
+    "body": [
+      "FINASTRA Maintainance",
+      "Services may be temporarily unavailable.",
+      "Please save your work beforehand."
+    ],
+    "buttons": [
+      { 
+        "text": "Hunxa (doesnt work)", 
+        "type": "callback", 
+        "value": "view:main_menu" 
+      },
+      { 
+        "text": "View Status Page", 
+        "type": "webapp", 
+        "value": "status_page",
+        "path": "/status" 
+      }
+    ]
+  }
+}
