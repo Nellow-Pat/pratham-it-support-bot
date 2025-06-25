@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "A modular, scalable, and type-safe Telegram bot.",
   "main": "dist/main.js",
-"scripts": {
+  "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon",
     "build": "rimraf dist && tsc && cpx \"src/**/*.json\" dist && cpx \"config/bots.config.json\" dist/config",
-    "start": "cross-env NODE_ENV=production node -r ./register-paths.js dist/main.js",
+    "prod": "cross-env NODE_ENV=production node -r ./register-paths.js dist/main.js",
+    "start": "npm run build && npm run prod",
     "lint": "eslint \"src/**/*.ts\"",
     "lint:fix": "eslint \"src/**/*.ts\" --fix"
   },
