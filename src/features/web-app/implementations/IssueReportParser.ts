@@ -10,7 +10,6 @@ const IssueReportSchema = z.object({
   category: z.enum(['bug', 'feature', 'improvement', 'question']),
 });
 
-
 type IssueReportData = z.infer<typeof IssueReportSchema>;
 
 @injectable()

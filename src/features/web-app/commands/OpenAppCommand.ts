@@ -1,9 +1,9 @@
 import { injectable, inject } from 'tsyringe';
 import { CommandContext } from 'grammy';
-import { BotContext } from '@/bot/models/context.model';
-import { ICommand } from '@/bot/base/interfaces/IHandler';
+import { BotContext } from '@/core/models/context.model';
+import { ICommand } from '@/core/interfaces/IHandler';
 import { WebAppButtonView } from '../views/WebAppButtonView';
-import { Config } from '@/models/config.model';
+import { Config } from '@/config';
 
 @injectable()
 export class OpenAppCommand implements ICommand {

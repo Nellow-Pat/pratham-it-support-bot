@@ -1,6 +1,6 @@
 import { InlineKeyboard } from 'grammy';
 import { injectable, inject } from 'tsyringe';
-import { Config } from '@/models/config.model';
+import { Config } from '@/config';
 import { ViewButton } from '../factories/NavigationalViewFactory';
 
 export interface MenuViewProps {
