@@ -4,9 +4,10 @@
   "description": "A modular, scalable, and type-safe Telegram bot.",
   "main": "dist/main.js",
   "scripts": {
-    "dev": "nodemon",
-    "build": "rimraf dist && tsc && cpx \"src/**/*.json\" dist",
-    "start": "node -r tsconfig-paths/register dist/main.js",
+    "dev": "cross-env NODE_ENV=development nodemon",
+    "build": "rimraf dist && tsc && cpx \"src/**/*.json\" dist && cpx \"config/bots.config.json\" dist/config",
+    "prod": "cross-env NODE_ENV=production node -r ./register-paths.js dist/main.js",
+    "start": "npm run build && npm run prod",
     "lint": "eslint \"src/**/*.ts\"",
     "lint:fix": "eslint \"src/**/*.ts\" --fix"
   },
@@ -36,6 +37,7 @@
     "@typescript-eslint/eslint-plugin": "^7.9.0",
     "@typescript-eslint/parser": "^7.9.0",
     "cpx": "^1.5.0",
+    "cross-env": "^7.0.3",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",

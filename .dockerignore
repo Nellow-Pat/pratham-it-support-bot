@@ -1,0 +1,13 @@
+.git
+.gitignore
+node_modules
+
+dist
+logs/
+
+.vscode/
+nodemon.json
+README.md
+
+.env
+.env.example
