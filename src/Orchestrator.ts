@@ -31,7 +31,6 @@ export class Orchestrator {
     } catch (e) {
       const error = toError(e);
       this.logger.error(`Fatal application startup error: ${error.message}`, error);
-      process.exit(1);
     }
 
     this.server.start();
