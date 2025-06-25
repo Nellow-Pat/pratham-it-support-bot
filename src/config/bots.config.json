@@ -9,6 +9,6 @@
     "id": "prathamNotifierBot",
     "tokenEnvVar": "NOTIFIER_BOT_TOKEN",
     "description": "A simple bot for sending notifications.",
-    "enabledFeatures": ["core-commands", "notifier"]
+    "enabledFeatures": ["core-commands", "notifier", "web-app"]
   }
 ]
