@@ -1,0 +1,20 @@
+[
+  {
+    "id": "prathamSupportBot",
+    "tokenEnvVar": "SUPPORT_BOT_TOKEN",
+    "description": "The main Pratham IT support bot.",
+    "enabledFeatures": [
+      "core-commands",
+      "ai-chat",
+      "web-app"
+    ]
+  },
+  {
+    "id": "prathamNotifierBot",
+    "tokenEnvVar": "NOTIFIER_BOT_TOKEN",
+    "description": "A simple bot for sending notifications.",
+    "enabledFeatures": [
+      "core-commands"
+    ]
+  }
+]

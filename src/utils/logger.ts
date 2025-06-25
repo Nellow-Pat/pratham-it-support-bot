@@ -1,8 +1,8 @@
 import fs from 'fs';
-import { promises as fsPromises } from 'fs'; 
+import { promises as fsPromises } from 'fs';
 import path from 'path';
 import { singleton, inject } from 'tsyringe';
-import { Config } from '@/models/config.model';
+import { Config } from '@/config';
 
 type LogLevel = 'error' | 'warn' | 'info' | 'debug';
 

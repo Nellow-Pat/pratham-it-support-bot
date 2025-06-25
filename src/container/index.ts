@@ -1,23 +1,19 @@
-import { container } from 'tsyringe';
-import { Config } from '@/models/config.model';
-import { config } from '@/config';
+import { container, DependencyContainer } from 'tsyringe';
+import { Config } from '@/config';
 import { LoggerService } from '@/utils/logger';
-import { registerApiServices } from '@/api/container';
-import { registerBaseBotServices } from '@/bot/base/container';
-import { registerChatServices } from '@/bot/chat/container';
-import { Application } from '@/Application';
-import { registerWebAppServices } from '@/bot/web-app/container';
-import { registerServerServices } from '@/server/container';
+import { Orchestrator } from '@/Orchestrator';
+import { registerApiModule } from '@/shared/api/module';
+import { registerServerModule } from '@/shared/server/module';
 
-container.register(Application, { useClass: Application });
+const appConfig = new Config();
 
-container.register<Config>(Config, { useValue: config });
+container.register<Config>(Config, { useValue: appConfig });
 container.registerSingleton(LoggerService);
+container.register<DependencyContainer>('MainContainer', { useValue: container });
 
-registerServerServices(container); 
-registerApiServices(container);
-registerBaseBotServices(container);
-registerChatServices(container);
-registerWebAppServices(container);
+registerApiModule(container);
+registerServerModule(container);
+
+container.registerSingleton(Orchestrator);
 
 export { container };

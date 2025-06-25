@@ -1,20 +1,20 @@
 import 'reflect-metadata';
 import { container } from '@/container';
-import { Application } from '@/Application';
-import { LoggerService } from './utils/logger';
+import { Orchestrator } from '@/Orchestrator';
+import { LoggerService } from '@/utils/logger';
+import { toError } from './utils/ErrorUtils';
 
 async function bootstrap() {
-  const app = container.resolve(Application);
-  
+  const app = container.resolve(Orchestrator);
   await app.run();
 }
 
-bootstrap().catch((error) => {
+bootstrap().catch((e) => {
+  const error = toError(e);
   const logger = container.isRegistered(LoggerService)
     ? container.resolve(LoggerService)
     : console;
 
-  const errorMessage = error instanceof Error ? error.message : String(error);
-  logger.error(`Application failed to start: ${errorMessage}`, error);
+  logger.error(`Application failed to start: ${error.message}`, error);
   process.exit(1);
 });

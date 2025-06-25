@@ -8,9 +8,9 @@ import { singleton, inject, container } from 'tsyringe';
 import { Config } from '@/models/config.model';
 import { LoggerService } from '@/utils/logger';
 import { IAuthService } from '@/bot/chat/interfaces/IAuthService';
-import { ApiResponse } from '../models/api.dto';
-import { LOGIN_USER_ENDPOINT } from '../constants/chat.auth.endpoints';
-import { StreamChatRequest } from '../models/chat.dto';
+import { ApiResponse } from '../../shared/api/models/api.dto';
+import { LOGIN_USER_ENDPOINT } from '../../shared/api/constants/chat.auth.endpoints';
+import { StreamChatRequest } from '../../shared/api/models/chat.dto';
 
 @singleton()
 export class ApiService {
