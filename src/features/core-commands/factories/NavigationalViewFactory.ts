@@ -17,7 +17,7 @@ const webappButtonSchema = z.object({
   path: z.string().startsWith('/'),
 });
 
-const buttonSchema = z.discriminatedUnion('type', [
+export const buttonSchema = z.discriminatedUnion('type', [
   callbackButtonSchema,
   webappButtonSchema,
 ]);

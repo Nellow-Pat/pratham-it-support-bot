@@ -1,11 +1,9 @@
 import { z } from 'zod';
+import { DynamicViewDataSchema } from '@/shared/dynamic-views/models/dynamic-view.dto';
 
 export const NotificationRequestSchema = z.object({
   chatId: z.union([z.string().min(1), z.number()]),
-  message: z.string().min(1, { message: 'Message cannot be empty.' }),
-  options: z.object({
-    parse_mode: z.enum(['Markdown', 'HTML']).optional(),
-  }).optional(),
+  view: DynamicViewDataSchema,
 });
 
 export type NotificationRequest = z.infer<typeof NotificationRequestSchema>;
