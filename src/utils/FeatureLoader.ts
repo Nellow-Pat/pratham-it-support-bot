@@ -11,9 +11,9 @@ export async function loadFeatures(
   const logger = container.resolve(LoggerService);
   const featuresMap = new Map<string, IFeatureModule>();
 
-  const isProduction = process.env.NODE_ENV === 'production';
+  const isProduction = __filename.endsWith('.js');
   const fileExtension = isProduction ? '.js' : '.ts';
-  const featuresDir = path.join(__dirname, isProduction ? '../features' : '../features');
+  const featuresDir = path.join(__dirname, '..', 'features');
   
   logger.info(`Loading features from: ${featuresDir}. Mode: ${isProduction ? 'Production' : 'Development'}`);
 
@@ -26,6 +26,7 @@ export async function loadFeatures(
         
         try {
           await fs.stat(modulePath);
+
           const moduleImport = await import(modulePath);
           const FeatureModuleClass = moduleImport.default;
 
@@ -45,7 +46,8 @@ export async function loadFeatures(
       }
     }
   } catch (e) {
-    logger.error('Failed to read features directory.', toError(e));
+    const error = toError(e);
+    logger.error(`Failed to read features directory at ${featuresDir}.`, error);
   }
 
   return featuresMap;
