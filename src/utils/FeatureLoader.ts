@@ -10,14 +10,20 @@ export async function loadFeatures(
 ): Promise<Map<string, IFeatureModule>> {
   const logger = container.resolve(LoggerService);
   const featuresMap = new Map<string, IFeatureModule>();
-  const featuresDir = path.join(__dirname, '../features');
+
+  const isProduction = process.env.NODE_ENV === 'production';
+  const fileExtension = isProduction ? '.js' : '.ts';
+  const featuresDir = path.join(__dirname, isProduction ? '../features' : '../features');
+  
+  logger.info(`Loading features from: ${featuresDir}. Mode: ${isProduction ? 'Production' : 'Development'}`);
 
   try {
     const featureDirs = await fs.readdir(featuresDir, { withFileTypes: true });
 
     for (const dirent of featureDirs) {
       if (dirent.isDirectory()) {
-        const modulePath = path.join(featuresDir, dirent.name, 'module.ts');
+        const modulePath = path.join(featuresDir, dirent.name, `module${fileExtension}`);
+        
         try {
           await fs.stat(modulePath);
           const moduleImport = await import(modulePath);

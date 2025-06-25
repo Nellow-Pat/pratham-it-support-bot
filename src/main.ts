@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { container } from '@/container';
+import { container } from '@/container/index';
 import { Orchestrator } from '@/Orchestrator';
 import { LoggerService } from '@/utils/logger';
 import { toError } from './utils/ErrorUtils';
