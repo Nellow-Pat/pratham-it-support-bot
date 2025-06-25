@@ -10,6 +10,9 @@ import { IServer } from '../interfaces/IServer';
 @singleton()
 export class Server implements IServer {
   private readonly app: Express;
+  public get expressApp(): Express {
+    return this.app;
+  }
 
   constructor(
     @inject(Config) private readonly config: Config,

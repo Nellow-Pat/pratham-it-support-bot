@@ -1,12 +1,12 @@
-import { Bot, session } from 'grammy';
-import { DependencyContainer } from 'tsyringe';
-import { IBotConfig } from './interfaces/IBotConfig';
-import { IFeatureModule } from './interfaces/IFeatureModule';
-import { BotContext } from './models/context.model';
-import { createInitialSessionData } from './models/session.model';
-import { LoggerService } from '@/utils/logger';
-import { toError } from '@/utils/ErrorUtils';
-
+import { Bot, session } from "grammy";
+import { DependencyContainer } from "tsyringe";
+import { IBotConfig } from "./interfaces/IBotConfig";
+import { IFeatureModule } from "./interfaces/IFeatureModule";
+import { BotContext } from "./models/context.model";
+import { createInitialSessionData } from "./models/session.model";
+import { LoggerService } from "@/utils/logger";
+import { toError } from "@/utils/ErrorUtils";
+import { Express } from "express";
 export class BotInstance {
   public readonly id: string;
   public readonly bot: Bot<BotContext>;
@@ -18,14 +18,17 @@ export class BotInstance {
     private readonly config: IBotConfig,
     parentContainer: DependencyContainer,
     private readonly featureRegistry: Map<string, IFeatureModule>,
+    private readonly app: Express
   ) {
     this.id = config.id;
     this.container = parentContainer.createChildContainer();
     this.logger = this.container.resolve(LoggerService);
 
     this.logger.info(`[${this.id}] Creating bot instance...`);
-    
-    parentContainer.register<DependencyContainer>(this.id, { useValue: this.container });
+
+    parentContainer.register<DependencyContainer>(this.id, {
+      useValue: this.container,
+    });
 
     this.bot = new Bot<BotContext>(this.config.token);
     this.container.register<Bot<BotContext>>(Bot, { useValue: this.bot });
@@ -40,33 +43,46 @@ export class BotInstance {
     this.bot.catch((err) => {
       const ctx = err.ctx;
       const error = toError(err.error);
-      this.logger.error(`[${this.id}] Error for update ${ctx.update.update_id}: ${error.message}`, error);
-      ctx.reply("I couldn't process your request. Please try again later.").catch(e => {
-        this.logger.error(`[${this.id}] Failed to send error message to user.`, toError(e));
-      });
+      this.logger.error(
+        `[${this.id}] Error for update ${ctx.update.update_id}: ${error.message}`,
+        error
+      );
+      ctx
+        .reply("I couldn't process your request. Please try again later.")
+        .catch((e) => {
+          this.logger.error(
+            `[${this.id}] Failed to send error message to user.`,
+            toError(e)
+          );
+        });
     });
   }
 
   private registerAndInitializeFeatures(): void {
-    this.logger.info(`[${this.id}] Registering features: ${this.config.enabledFeatures.join(', ')}`);
-    
-    this.config.enabledFeatures.forEach(featureName => {
+    this.logger.info(
+      `[${this.id}] Registering features: ${this.config.enabledFeatures.join(", ")}`
+    );
+
+    this.config.enabledFeatures.forEach((featureName) => {
       const featureModule = this.featureRegistry.get(featureName);
       if (featureModule) {
         this.logger.info(`[${this.id}] Applying feature: ${featureName}`);
         featureModule.register(this.container);
-        featureModule.initialize(this.bot, this.container);
+        featureModule.initialize(this.id, this.bot, this.container, this.app);
       } else {
-        this.logger.warn(`[${this.id}] Feature "${featureName}" not found in registry.`);
+        this.logger.warn(
+          `[${this.id}] Feature "${featureName}" not found in registry.`
+        );
       }
     });
   }
-
   public async start(): Promise<void> {
     this.logger.info(`[${this.id}] Starting bot...`);
     await this.bot.start({
       onStart: (botInfo) => {
-        this.logger.info(`Bot @${botInfo.username} (${this.id}) started successfully.`);
+        this.logger.info(
+          `Bot @${botInfo.username} (${this.id}) started successfully.`
+        );
       },
     });
   }

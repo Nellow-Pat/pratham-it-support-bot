@@ -8,7 +8,7 @@ import { WebAppButtonView } from './views/WebAppButtonView';
 import { WebAppParserRegistry } from './implementations/WebAppParserRegistry';
 import { IWebAppParser } from './interfaces/IWebAppParser';
 import { IssueReportParser } from './implementations/IssueReportParser';
-
+import { Express } from 'express';
 export default class WebAppFeature implements IFeatureModule {
   public readonly name = 'web-app';
 
@@ -20,7 +20,7 @@ export default class WebAppFeature implements IFeatureModule {
     container.register(WebAppButtonView, { useClass: WebAppButtonView });
   }
 
-  public initialize(bot: Bot<BotContext>, container: DependencyContainer): void {
+ public initialize(_botId: string, bot: Bot<BotContext>, container: DependencyContainer, _app: Express): void {
     const commands = container.resolveAll<ICommand>(ICommand);
     commands.forEach(handler => bot.command(handler.command, (ctx) => handler.handle(ctx)));
   }

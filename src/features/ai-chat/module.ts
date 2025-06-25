@@ -8,6 +8,7 @@ import { StartAiChatCallbackHandler } from './events/StartAiChatCallbackHandler'
 import { ConversationMessageHandler } from './events/ConversationMessageHandler';
 import { IChatService } from './interfaces/IChatService';
 import { ChatService } from './implementations/ChatService';
+import { Express } from 'express';
 
 export default class AiChatFeature implements IFeatureModule {
   public readonly name = 'ai-chat';
@@ -19,7 +20,7 @@ export default class AiChatFeature implements IFeatureModule {
     container.registerSingleton<IChatService>(IChatService, ChatService);
   }
 
-  public initialize(bot: Bot<BotContext>, container: DependencyContainer): void {
+  public initialize(_botId: string, bot: Bot<BotContext>, container: DependencyContainer, _app: Express): void {
     const commands = container.resolveAll<ICommand>(ICommand);
     commands.forEach(handler => bot.command(handler.command, (ctx) => handler.handle(ctx)));
 

@@ -7,7 +7,7 @@ import { loadFeatures } from './utils/FeatureLoader';
 import { IAuthService } from './shared/api/interfaces/IAuthService';
 import { toError } from './utils/ErrorUtils';
 import { IServer } from './shared/server/interfaces/IServer';
-
+import { Server } from './shared/server/implementations/Server';
 @injectable()
 export class Orchestrator {
   private readonly botInstances: BotInstance[] = [];
@@ -34,11 +34,12 @@ export class Orchestrator {
     }
 
     this.server.start();
+    const expressApp = (this.server as Server).expressApp; 
 
     const botConfigs = this.config.getBotConfigs();
     for (const botConfig of botConfigs) {
       try {
-        const instance = new BotInstance(botConfig, this.container, this.featureRegistry);
+        const instance = new BotInstance(botConfig, this.container, this.featureRegistry, expressApp);
         this.botInstances.push(instance);
         instance.start();
       } catch (e) {

@@ -9,7 +9,7 @@ import { IMenuViewService } from './interfaces/IMenuViewService';
 import { MenuViewService } from './implementations/MenuViewService';
 import { NavigationalViewFactory } from './factories/NavigationalViewFactory';
 import { MenuView } from './views/MenuView';
-
+import { Express } from 'express';
 export default class CoreCommandsFeature implements IFeatureModule {
   public readonly name = 'core-commands';
 
@@ -22,7 +22,7 @@ export default class CoreCommandsFeature implements IFeatureModule {
     container.register(MenuView, { useClass: MenuView });
   }
 
-  public initialize(bot: Bot<BotContext>, container: DependencyContainer): void {
+  public initialize(_botId: string, bot: Bot<BotContext>, container: DependencyContainer, _app: Express): void {
     const commands = container.resolveAll<ICommand>(ICommand);
     commands.forEach(handler => bot.command(handler.command, (ctx) => handler.handle(ctx)));
 
