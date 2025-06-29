@@ -3,7 +3,7 @@
     "id": "prathamSupportBot",
     "tokenEnvVar": "SUPPORT_BOT_TOKEN",
     "description": "The main Pratham IT support bot.",
-    "enabledFeatures": ["core-commands", "ai-chat", "web-app"]
+    "enabledFeatures": ["core-commands", "ai-chat", "web-app", "notifier"]
   },
   {
     "id": "prathamNotifierBot",
